@@ -1,0 +1,24 @@
+import { VerticalBox, Switch } from "std-widgets.slint";
+export component Demo inherits Window{
+    width: 240px;
+    height: 280px;
+    in-out property<bool> check: false;
+    Rectangle {
+        background: sw.checked ? #db073d:#07dba5;
+        animate background {
+            duration: 200ms;
+        }
+        VerticalBox {
+            alignment: center;
+            Text {
+                text: "Bg color test";
+                font-size: 15px;
+                horizontal-alignment: center;
+            }
+            sw := Switch {
+                checked: check;
+                text: "Switch";
+            }
+        }
+    }
+}

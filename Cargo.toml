@@ -1,0 +1,63 @@
+[package]
+name = "slint"
+version = "0.1.0"
+authors = ["Kortan <kortanzh@gmail.com>"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+esp-backtrace = { version = "0.11.0", features = [
+    "esp32c6",
+    "exception-handler",
+    "panic-handler",
+    "println",
+] }
+esp-hal = { version = "0.18.0", features = [ "esp32c6", "async" ] }
+esp-println = { version = "0.9.0", features = [ "esp32c6", "log" ] }
+log = { version = "0.4.20" }
+
+esp-alloc = { version = "0.4.0" }
+
+esp-hal-embassy = { version = "0.1.0", features = [ "esp32c6", "time-systimer-16mhz" ] }
+
+embassy-executor    = { version = "0.5.0" }
+embassy-time        = { version = "0.3.0", features = [ "generic-queue-8" ] }
+embassy-sync        = { version = "0.5.0" }
+
+embedded-graphics = "0.8.1" 
+embedded-graphics-core = "0.4.0" 
+embedded-graphics-framebuf = "0.5.0"
+display-interface = "0.5"
+
+display-interface-spi = "0.5"
+mipidsi = "0.8.0"
+
+embedded-hal-bus = "0.2.0"
+embedded-hal = "1.0.0"
+embedded-hal-async = "1.0.0"
+
+smart-leds = "0.4.0"
+esp-hal-smartled = "0.11.0"
+
+[dependencies.slint]
+version = "1.6.0"
+default-features = false
+features = [ "compat-1-2", "unsafe-single-threaded", "libm", "renderer-software" ]
+[build-dependencies]
+slint-build = "1.6.0"
+
+[features]
+
+[profile.dev]
+# Rust debug is too slow. 
+# For debug builds always builds with some optimization
+opt-level = "s"
+
+[profile.release]
+codegen-units = 1 # LLVM can perform better optimizations using a single thread
+debug = 2
+debug-assertions = false
+incremental = false
+lto = 'fat'
+opt-level = 's'
+overflow-checks = false
